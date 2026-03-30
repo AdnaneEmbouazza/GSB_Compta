@@ -167,10 +167,11 @@ const updateArticle = async (req, res) => {
       }
     }
 
-    res.redirect('/articles');
+    // Retourne JSON au lieu de redirect (pour fetch)
+    res.json({ success: true, message: 'Article mis à jour avec succès' });
   } catch (err) {
     console.error('Erreur updateArticle:', err);
-    res.status(500).render('error', { error: 'Erreur lors de la modification' });
+    res.status(500).json({ error: 'Erreur lors de la modification' });
   }
 };
 

@@ -142,11 +142,11 @@ const updateProfile = async (req, res) => {
       [nom, prenom, email, userId]
     );
 
-    // Redirection avec ?success=1 afin que getProfile affiche le message
-    res.redirect('/profile?success=1');
+    // Retourne JSON au lieu de redirect (pour fetch)
+    res.json({ success: true, message: 'Profil mis à jour avec succès' });
   } catch (error) {
     console.error('Erreur lors de la mise à jour du profil:', error);
-    res.status(500).render('error', { 
+    res.status(500).json({ 
       error: 'Erreur lors de la mise à jour du profil' 
     });
   }

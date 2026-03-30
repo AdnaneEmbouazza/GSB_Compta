@@ -93,7 +93,7 @@ const showEditForm = async (req, res) => {
 };
 
 /**
- * POST /categories/:id
+ * PUT /categories/:id
  * Modifie une catégorie existante
  */
 const updateCategory = async (req, res) => {
@@ -106,10 +106,11 @@ const updateCategory = async (req, res) => {
       [nom_categorie, req.params.id]
     );
 
-    res.redirect('/categories');
+    // Retourne JSON au lieu de redirect (pour fetch)
+    res.json({ success: true, message: 'Catégorie mise à jour avec succès' });
   } catch (err) {
     console.error('Erreur updateCategory:', err);
-    res.status(500).render('error', { error: 'Erreur lors de la modification' });
+    res.status(500).json({ error: 'Erreur lors de la modification' });
   }
 };
 
