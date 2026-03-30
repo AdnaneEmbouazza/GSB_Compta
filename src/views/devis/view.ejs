@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><%= title %></h1>
+            <a href="/devis" class="btn btn-secondary">← Retour</a>
+        </div>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <!-- Ligne 1: Informations et Statut côte à côte -->
+        <div class="document-layout">
+            <!-- Informations principales -->
+            <div class="document-section">
+                <h2>Informations</h2>
+                <div class="info-grid">
+                    <div>
+                        <strong>Numéro :</strong> <%= devis.numero_devis %>
+                    </div>
+                    <div>
+                        <strong>Contact :</strong> <%= devis.nom_contact %>
+                        <% if (devis.email_contact) { %>
+                            (<%= devis.email_contact %>)
+                        <% } %>
+                    </div>
+                    <div>
+                        <strong>Date :</strong> <%= new Date(devis.date_devis).toLocaleDateString('fr-FR') %>
+                    </div>
+                    <div>
+                        <strong>Validité :</strong> <%= devis.date_validite ? new Date(devis.date_validite).toLocaleDateString('fr-FR') : '-' %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="document-section">
+                <h2>Statut</h2>
+                <form id="statusForm" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="etat_devis">État</label>
+                        <select id="etat_devis" name="etat_devis">
+                            <option value="brouillon" <%= devis.etat_devis === 'brouillon' ? 'selected' : '' %>>Brouillon</option>
+                            <option value="envoyé" <%= devis.etat_devis === 'envoyé' ? 'selected' : '' %>>Envoyé</option>
+                            <option value="accepté" <%= devis.etat_devis === 'accepté' ? 'selected' : '' %>>Accepté</option>
+                            <option value="refusé" <%= devis.etat_devis === 'refusé' ? 'selected' : '' %>>Refusé</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary" style="align-self: flex-start;">Mettre à jour</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Ligne 2: Articles sur toute la largeur -->
+        <div class="document-section document-layout full">
+            <h2>Articles</h2>
+            
+            <% if (lignes && lignes.length > 0) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire (€)</th>
+                            <th>Montant (€)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% lignes.forEach(ligne => { %>
+                            <tr>
+                                <td><%= ligne.description || '-' %></td>
+                                <td><%= ligne.quantite %></td>
+                                <td><%= ligne.prix_unitaire.toFixed(2) %></td>
+                                <td><%= ligne.montant.toFixed(2) %></td>
+                                <td>
+                                    <a href="/devis/<%= devis.id_devis %>/lignes/<%= ligne.id_ligne %>/delete" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr?')">Supprimer</a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>Aucun article</p>
+            <% } %>
+
+            <!-- Formulaire ajout ligne -->
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Ajouter une ligne</h3>
+            <form method="POST" action="/devis/<%= devis.id_devis %>/lignes" class="form-row" style="background: transparent; padding: 0; margin-bottom: 0; box-shadow: none;" id="addLineForm">
+                <div class="form-group">
+                    <label for="id_article">Article</label>
+                    <select id="id_article" name="id_article" onchange="updateStock(this)">
+                        <option value="">Sélectionner...</option>
+                        <% articles.forEach(article => { %>
+                            <option value="<%= article.id_article %>" data-stock="<%= article.quantite_stock %>" data-name="<%= article.nom_article %>">
+                                <%= article.nom_article %> - <%= article.prix_unitaire.toFixed(2) %>€
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description">
+                </div>
+
+                <div class="form-group">
+                    <label for="quantite">Quantité * <span id="stockInfo" style="color: #666; font-size: 0.9rem;"></span></label>
+                    <input type="number" id="quantite" name="quantite" value="1" min="1" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="align-self: flex-end; margin-top: auto;">Ajouter</button>
+            </form>
+
+            <script>
+            const articlesData = {
+                <% articles.forEach((article, idx) => { %>
+                    '<%= article.id_article %>': { stock: <%= article.quantite_stock %>, name: '<%= article.nom_article %>' }<%= idx < articles.length - 1 ? ',' : '' %>
+                <% }); %>
+            };
+
+            function updateStock(select) {
+                const selectedId = select.value;
+                const quantiteInput = document.getElementById('quantite');
+                const stockInfo = document.getElementById('stockInfo');
+                
+                if (selectedId && articlesData[selectedId]) {
+                    const stock = articlesData[selectedId].stock;
+                    quantiteInput.max = Math.max(0, stock);
+                    quantiteInput.value = 1;
+                    
+                    if (stock <= 0) {
+                        stockInfo.textContent = '(Stock insuffisant)';
+                        stockInfo.style.color = '#e74c3c';
+                        quantiteInput.disabled = true;
+                    } else {
+                        stockInfo.textContent = `(Disponible: ${stock})`;
+                        stockInfo.style.color = '#666';
+                        quantiteInput.disabled = false;
+                    }
+                } else {
+                    quantiteInput.max = '';
+                    quantiteInput.value = 1;
+                    quantiteInput.disabled = false;
+                    stockInfo.textContent = '';
+                }
+            }
+
+            // Validation à la soumission du formulaire
+            document.getElementById('addLineForm').addEventListener('submit', function(e) {
+                const selectedId = document.getElementById('id_article').value;
+                const quantite = parseInt(document.getElementById('quantite').value);
+                
+                if (!selectedId) {
+                    e.preventDefault();
+                    alert('Veuillez sélectionner un article');
+                    return;
+                }
+
+                if (articlesData[selectedId]) {
+                    const stock = articlesData[selectedId].stock;
+                    if (quantite > stock) {
+                        e.preventDefault();
+                        alert(`La quantité saisis dépasse le stock disponible (${stock} disponibles).`);
+                        return;
+                    }
+                    if (stock <= 0) {
+                        e.preventDefault();
+                        alert('Cet article n\'a pas de stock disponible.');
+                        return;
+                    }
+                }
+            });
+            </script>
+        </div>
+
+        <!-- Ligne 3: Totaux et Notes côte à côte -->
+        <div class="document-layout">
+            <!-- Totaux -->
+            <div class="card total-card">
+                <div class="total-line">
+                    <span>Sous-total HT :</span>
+                    <strong><%= devis.montant_ht.toFixed(2) %>€</strong>
+                </div>
+                <div class="total-line">
+                    <span>TVA (20%) :</span>
+                    <strong><%= devis.montant_tva.toFixed(2) %>€</strong>
+                </div>
+                <div class="total-line total-highlight">
+                    <span>Total TTC :</span>
+                    <strong><%= devis.montant_ttc.toFixed(2) %>€</strong>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="document-section">
+                <h2>Notes</h2>
+                <% if (devis.notes) { %>
+                    <p><%= devis.notes %></p>
+                <% } else { %>
+                    <p style="color: #999; font-style: italic;">Aucune note</p>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple | Express.js + SQLite</p>
+    </footer>
+
+    <script>
+        // Gestion du formulaire de statut avec fetch PUT
+        const statusForm = document.getElementById('statusForm');
+        const devisId = '<%= devis.id_devis %>';
+
+        statusForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                etat_devis: document.getElementById('etat_devis').value
+            };
+
+            try {
+                const response = await fetch(`/devis/${devisId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    // Recharge la page pour afficher les changements
+                    window.location.reload();
+                } else {
+                    const errorData = await response.json();
+                    alert('Erreur: ' + (errorData.error || 'Une erreur est survenue'));
+                }
+            } catch (error) {
+                console.error('Erreur lors de la requête:', error);
+                alert('Erreur lors de la mise à jour du statut');
+            }
+        });
+    </script>
+</body>
+</html>

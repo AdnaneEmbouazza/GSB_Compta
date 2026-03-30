@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factures</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 20.627 0 14 5.373 2 12 2" fill="currentColor" opacity="0.1"></path><circle cx="12" cy="9" r="2"></circle><path d="M12 14v4"></path><path d="M8 16h8"></path></svg> Factures</h1>
+            <a href="/factures/new" class="btn btn-primary">+ Nouvelle facture</a>
+        </div>
+
+        <% if (factures && factures.length > 0) { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Numéro</th>
+                        <th>Contact</th>
+                        <th>Date</th>
+                        <th>Montant TTC (€)</th>
+                        <th>État</th>
+                        <th>Payée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% factures.forEach(facture => { %>
+                        <tr>
+                            <td><strong><%= facture.numero_facture %></strong></td>
+                            <td><%= facture.nom_contact %></td>
+                            <td><%= new Date(facture.date_facture).toLocaleDateString('fr-FR') %></td>
+                            <td><%= facture.montant_ttc.toFixed(2) %></td>
+                            <td><span class="badge"><%= facture.etat_facture %></span></td>
+                            <td><%= facture.est_payee ? 'Oui' : 'Non' %></td>
+                            <td>
+                                <a href="/factures/<%= facture.id_facture %>" class="btn btn-sm btn-secondary">Voir</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem(<%= facture.id_facture %>, 'Facture <%= facture.numero_facture %>', '/factures', '/factures')">Supprimer</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="alert alert-info">
+                Aucune facture pour le moment.
+            </div>
+        <% } %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+    <script src="/js/delete.js"></script>
+</body>
+</html>
