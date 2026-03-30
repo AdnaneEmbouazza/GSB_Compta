@@ -1,5 +1,5 @@
 -- =====================================================
--- SCRIPT SQL SIMPLIFIÉ - Gestion de Comptabilité
+-- SCRIPT SQL - Gestion de Comptabilité
 -- =====================================================
 
 CREATE TABLE IF NOT EXISTS utilisateurs (

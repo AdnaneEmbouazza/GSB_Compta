@@ -297,8 +297,22 @@ const updateFactureStatus = async (req, res) => {
  */
 const deleteFacture = async (req, res) => {
   try {
-    // Supprimer les lignes de la facture
-    // (ne serait pas strictement nécessaire avec CASCADE, mais par prudence)
+    // IMPORTANT: Restaurer le stock des articles AVANT de supprimer les lignes
+    // Récupère toutes les lignes de la facture avec leurs quantités
+    const lignes = await all(
+      'SELECT quantite, id_article FROM lignes_facture WHERE id_facture = ?',
+      [req.params.id]
+    );
+
+    // Pour chaque ligne, on augmente le stock de l'article
+    for (const ligne of lignes) {
+      await run(
+        'UPDATE articles SET quantite_stock = quantite_stock + ? WHERE id_article = ?',
+        [ligne.quantite, ligne.id_article]
+      );
+    }
+
+    // Maintenant supprimer les lignes de la facture
     await run(
       'DELETE FROM lignes_facture WHERE id_facture = ?',
       [req.params.id]
