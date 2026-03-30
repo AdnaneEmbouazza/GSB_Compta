@@ -48,6 +48,8 @@ src/
 
 script.sql                 # Schéma base de données
 ```
+##      Diagramme Use Case 
+![Diagramme des Use Case - Gestion Comptabilité](useCase.jpg)
 
 ## 🚀 Installation et démarrage
 
