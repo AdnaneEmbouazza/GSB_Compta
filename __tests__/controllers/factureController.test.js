@@ -128,8 +128,7 @@ describe('Facture Controller - deleteFacture avec Stock Restoration', () => {
     };
 
     const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn()
+      sendStatus: jest.fn()
     };
 
     db.all.mockResolvedValueOnce([]);
@@ -137,7 +136,7 @@ describe('Facture Controller - deleteFacture avec Stock Restoration', () => {
 
     await deleteFacture(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.sendStatus).toHaveBeenCalledWith(200);
   });
 
   test('deleteFacture avec 0 lignes doit toujours supprimer la facture', async () => {

@@ -126,8 +126,7 @@ describe('Devis Controller - deleteDevis avec Stock Restoration', () => {
     };
 
     const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn()
+      sendStatus: jest.fn()
     };
 
     db.all.mockResolvedValueOnce([]);
@@ -135,7 +134,7 @@ describe('Devis Controller - deleteDevis avec Stock Restoration', () => {
 
     await deleteDevis(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.sendStatus).toHaveBeenCalledWith(200);
   });
 
   test('deleteDevis doit vérifier l\'utilisateur', async () => {
