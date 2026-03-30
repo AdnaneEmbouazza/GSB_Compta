@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3m0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22"></path></svg> Mon Profil</h1>
+        </div>
+
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <%= success %>
+            </div>
+        <% } %>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="profile-container">
+            <!-- Formulaire de profil -->
+            <div class="profile-section">
+                <h2>Informations Personnelles</h2>
+                <form id="profileForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" value="<%= user.email %>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input type="text" id="nom" name="nom" value="<%= user.nom %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prenom">Prénom</label>
+                            <input type="text" id="prenom" name="prenom" value="<%= user.prenom || '' %>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Inscrit depuis</label>
+                        <input type="text" value="<%= new Date(user.date_inscription).toLocaleDateString('fr-FR') %>" disabled>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <a href="/dashboard" class="btn btn-secondary">Retour</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Changement de mot de passe -->
+            <div class="profile-section">
+                <h2>Sécurité</h2>
+                <p style="color: var(--secondary-color); margin-bottom: 1rem;">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Gérez votre mot de passe et la sécurité de votre compte.
+                </p>
+                <a href="/profile/change-password" class="btn btn-secondary">Changer le mot de passe</a>
+            </div>
+        </div>
+
+        <script>
+            const form = document.getElementById('profileForm');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const data = {
+                    nom: document.getElementById('nom').value,
+                    prenom: document.getElementById('prenom').value,
+                    email: document.getElementById('email').value
+                };
+
+                try {
+                    const response = await fetch('/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/profile?success=1';
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erreur: ' + (errorData.error || 'Une erreur est survenue'));
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la requête:', error);
+                    alert('Erreur lors de l\'envoi du formulaire');
+                }
+            });
+        </script>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple | Express.js + SQLite</p>
+    </footer>
+</body>
+</html>
