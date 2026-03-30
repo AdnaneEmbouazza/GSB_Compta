@@ -192,7 +192,7 @@ SESSION_SECRET=your_session_secret_change_this
 Base **SQLite** automatiquement créée dans `src/data/compta.db`
 ### Diagramme de classes
 
-![Diagramme de classe - Gestion Comptabilité](MCD.jpg)
+![Diagramme de classe - Gestion Comptabilité](MCD/MCD.jpg)
 
 > **Note** : Par souci de lisibilité, seuls les primary key ont été précisés sur le diagramme. Pour les autres champs, référez-vous au [script.sql](script.sql) du repo.
 
