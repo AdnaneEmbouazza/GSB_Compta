@@ -143,7 +143,7 @@ const updateProfile = async (req, res) => {
     );
 
     // Retourne JSON au lieu de redirect (pour fetch)
-    res.json({ success: true, message: 'Profil mis à jour avec succès' });
+    res.status(200).json({ success: true, message: 'Profil mis à jour avec succès' });
   } catch (error) {
     console.error('Erreur lors de la mise à jour du profil:', error);
     res.status(500).json({ 
@@ -304,11 +304,11 @@ const changePassword = async (req, res) => {
       [hashedPassword, userId]
     );
 
-    // Succès: redirection avec message de confirmation
-    res.redirect('/profile?success=1');
+    // Retourne JSON au lieu de redirect (pour fetch)
+    res.status(200).json({ success: true, message: 'Mot de passe mis à jour avec succès' });
   } catch (error) {
     console.error('Erreur lors du changement de mot de passe:', error);
-    res.status(500).render('error', { 
+    res.status(500).json({ 
       error: 'Erreur lors du changement de mot de passe' 
     });
   }

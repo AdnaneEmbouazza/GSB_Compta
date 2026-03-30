@@ -105,7 +105,7 @@ const updateContact = async (req, res) => {
     );
 
     // Retourne JSON au lieu de redirect (pour fetch)
-    res.json({ success: true, message: 'Contact mis à jour avec succès' });
+    res.status(200).json({ success: true, message: 'Contact mis à jour avec succès' });
   } catch (err) {
     console.error('Erreur updateContact:', err);
     res.status(500).json({ error: 'Erreur lors de la modification' });

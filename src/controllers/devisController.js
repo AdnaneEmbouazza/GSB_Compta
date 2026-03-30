@@ -260,10 +260,11 @@ const updateDevisStatus = async (req, res) => {
       [etat_devis, req.params.id, req.user.id]
     );
 
-    res.redirect(`/devis/${req.params.id}`);
+    // Retourne JSON au lieu de redirect (pour fetch)
+    res.status(200).json({ success: true, message: 'Statut mis à jour avec succès' });
   } catch (err) {
     console.error('Erreur updateDevisStatus:', err);
-    res.status(500).render('error', { error: 'Erreur lors de la mise à jour' });
+    res.status(500).json({ error: 'Erreur lors de la mise à jour' });
   }
 };
 
