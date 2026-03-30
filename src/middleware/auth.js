@@ -4,24 +4,6 @@
  * Ce fichier contient les middlewares pour vérifier les tokens JWT (JSON Web Tokens)
  * utilisés pour l'authentification dans l'application.
  * 
- * JWT EXPLIQUÉ:
- * Un JWT est un token encodé qui contient des informations utilisateur (payload)
- * signé avec une clé secrète (process.env.JWT_SECRET).
- * 
- * Structure d'un JWT:
- *   header.payload.signature
- *   exemple: eyJhbGciOiJIUzI1NiIs...eyJpZCI6MTIz...j5XYIjlpN3Xz...
- * 
- * - header: type d'algorithme (HS256, RS256, etc.)
- * - payload: contient les données (id_utilisateur, email, etc.)
- * - signature: hash calculé avec JWT_SECRET pour vérifier l'authenticité
- * 
- * AVANTAGES:
- * - Stateless (pas besoin de base de données pour vérifier)
- * - Client stocke le token et l'envoie à chaque requête
- * - Impossible à falsifier sans la clé secrète
- * - Peut avoir une date d'expiration
- * 
  * CYCLE DE VIE:
  * 1. Utilisateur se connecte → authController génère JWT → stocke dans cookie httpOnly
  * 2. Client envoie le cookie à chaque requête

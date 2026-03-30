@@ -201,33 +201,12 @@ const getChangePasswordForm = async (req, res) => {
  * 6. Hash le nouveau mot de passe avec bcrypt.hash(password, 10)
  * 7. Stocke le nouveau hash en base
  * 
- * SÉCURITÉ - BCRYPTJS EXPLIQUÉ:
- * 
- * Pourquoi bcrypt?
- * - Fonction de hachage "lente" conçue pour les mots de passe
- * - Une itération prend ~100ms (rend force brute infaisable)
- * - Inclut un "salt" aléatoire dans chaque hash → même mot de passe = hash différent
- * 
- * Hachage (registration/changePassword):
- *   bcrypt.hash('monMotDePasse', 10)
- *   → Génère un salt aléatoire
- *   → Hash le mot de passe 2^10 fois
- *   → Retourne un string: "$2a$10$...abcdef123456..." (contient salt + hash)
- *   → On stocke CE STRING en base
- * 
  * Vérification (login/changePassword):
  *   bcrypt.compare('monMotDePasse', '$2a$10$...abcdef123456...')
  *   → Extrait le salt du hash stocké
  *   → Hash le mot de passe saisi avec ce même salt
  *   → Compare les deux hashes
  *   → Retourne true si ils correspondent, false sinon
- * 
- * Avantage clé: On ne peut jamais décrypter le mot de passe original
- * Si la base est compromise, les mots de passe restent sécurisés
- * 
- * Le "10" = coût de calcul (nombre d'itérations = 2^10 = 1024)
- * Plus le coût est élevé, plus lent le hachage, plus sécurisé (mais aussi plus lent)
- * 10 est un bon équilibre pour 2024
  * 
  * SÉCURITÉ - UTILISATEUR ISOLÉ:
  * - Filtre par req.user.id pour s'assurer qu'on change le mot de passe de cet utilisateur
