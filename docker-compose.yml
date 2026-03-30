@@ -1,0 +1,19 @@
+services:
+  app:
+    image: node:22.20.0-alpine
+    container_name: comptabilite-app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_PATH: ./src/data/compta.db
+      JWT_SECRET: ${JWT_SECRET:-your_jwt_secret_key_change_this_in_production}
+      JWT_EXPIRE: 20m
+      SESSION_SECRET: ${SESSION_SECRET:-your_session_secret_change_this}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm start"
+    restart: unless-stopped
