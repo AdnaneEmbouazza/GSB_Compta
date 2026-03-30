@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1><%= title %></h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <%= error %>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/devis" class="form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="numero_devis">Numéro de devis *</label>
+                    <input type="text" id="numero_devis" name="numero_devis" value="<%= devis ? devis.numero_devis : '' %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_contact">Contact *</label>
+                    <select id="id_contact" name="id_contact" required>
+                        <option value="">Sélectionner...</option>
+                        <% contacts.forEach(contact => { %>
+                            <option value="<%= contact.id_contact %>" <%= devis && devis.id_contact === contact.id_contact ? 'selected' : '' %>>
+                                <%= contact.nom_contact %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date_devis">Date du devis *</label>
+                    <input type="date" id="date_devis" name="date_devis" value="<%= devis ? devis.date_devis : new Date().toISOString().split('T')[0] %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date_validite">Date de validité</label>
+                    <input type="date" id="date_validite" name="date_validite" value="<%= devis ? (devis.date_validite || '') : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="etat_devis">État</label>
+                    <select id="etat_devis" name="etat_devis">
+                        <option value="brouillon" <%= devis && devis.etat_devis === 'brouillon' ? 'selected' : 'selected' %>>Brouillon</option>
+                        <option value="envoyé" <%= devis && devis.etat_devis === 'envoyé' ? 'selected' : '' %>>Envoyé</option>
+                        <option value="accepté" <%= devis && devis.etat_devis === 'accepté' ? 'selected' : '' %>>Accepté</option>
+                        <option value="refusé" <%= devis && devis.etat_devis === 'refusé' ? 'selected' : '' %>>Refusé</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes"><%= devis ? (devis.notes || '') : '' %></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Créer le devis</button>
+                <a href="/devis" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+</body>
+</html>

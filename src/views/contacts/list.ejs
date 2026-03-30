@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Contacts</h1>
+            <a href="/contacts/new" class="btn btn-primary">+ Nouveau contact</a>
+        </div>
+
+        <% if (contacts && contacts.length > 0) { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Ville</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% contacts.forEach(contact => { %>
+                        <tr>
+                            <td><%= contact.nom_contact %></td>
+                            <td><span class="badge"><%= contact.type_contact %></span></td>
+                            <td><%= contact.email_contact || '-' %></td>
+                            <td><%= contact.telephone || '-' %></td>
+                            <td><%= contact.ville || '-' %></td>
+                            <td>
+                                <a href="/contacts/<%= contact.id_contact %>/edit" class="btn btn-sm btn-secondary">Modifier</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem(<%= contact.id_contact %>, '<%= contact.nom_contact %>', '/contacts', '/contacts')">Supprimer</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="alert alert-info">
+                Aucun contact pour le moment.
+            </div>
+        <% } %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+    <script src="/js/delete.js"></script>
+</body>
+</html>

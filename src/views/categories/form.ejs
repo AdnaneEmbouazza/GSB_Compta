@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1><%= title %></h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <%= error %>
+            </div>
+        <% } %>
+
+        <form id="categoryForm" class="form">
+            <div class="form-group">
+                <label for="nom_categorie">Nom de la catégorie *</label>
+                <input type="text" id="nom_categorie" name="nom_categorie" value="<%= category ? category.nom_categorie : '' %>" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="/categories" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+
+        <script>
+            const form = document.getElementById('categoryForm');
+            const isEditing = '<%= category ? "yes" : "" %>';
+            const categoryId = '<%= category ? category.id_categorie : "" %>';
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const data = {
+                    nom_categorie: document.getElementById('nom_categorie').value
+                };
+
+                try {
+                    const method = isEditing ? 'PUT' : 'POST';
+                    const url = isEditing ? `/categories/${categoryId}` : '/categories';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/categories';
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erreur: ' + (errorData.error || 'Une erreur est survenue'));
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la requête:', error);
+                    alert('Erreur lors de l\'envoi du formulaire');
+                }
+            });
+        </script>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+</body>
+</html>

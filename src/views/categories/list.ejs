@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catégories</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c6.627 0 12 2.686 12 6s-5.373 6-12 6-12-2.686-12-6 5.373-6 12-6m0 12c6.627 0 12 2.686 12 6s-5.373 6-12 6-12-2.686-12-6 5.373-6 12-6m0 12c6.627 0 12 2.686 12 6s-5.373 6-12 6-12-2.686-12-6 5.373-6 12-6"></path></svg> Catégories</h1>
+            <a href="/categories/new" class="btn btn-primary">+ Nouvelle catégorie</a>
+        </div>
+
+        <% if (categories && categories.length > 0) { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% categories.forEach(category => { %>
+                        <tr>
+                            <td><%= category.nom_categorie %></td>
+                            <td>
+                                <a href="/categories/<%= category.id_categorie %>/edit" class="btn btn-sm btn-secondary">Modifier</a>
+                                <button class="btn btn-sm btn-danger" data-id="<%= category.id_categorie %>" data-name="<%= category.nom_categorie.replace(/"/g, '&quot;') %>" onclick="handleDelete(this)">Supprimer</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="alert alert-info">
+                Aucune catégorie pour le moment.
+            </div>
+        <% } %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+    <script src="/js/delete.js"></script>
+    <script>
+        function handleDelete(button) {
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
+            deleteItem(id, name, '/categories', '/categories');
+        }
+    </script>
+</body>
+</html>
