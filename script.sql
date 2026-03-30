@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS articles_categories (
     FOREIGN KEY (id_categorie) REFERENCES categories(id_categorie) ON DELETE CASCADE
 );
 
+-- pour SQLite => pour améliorer les performances des requêtes de jointure et de filtrage
 CREATE INDEX IF NOT EXISTS idx_articles_utilisateur ON articles(id_utilisateur);
 CREATE INDEX IF NOT EXISTS idx_contacts_utilisateur ON contacts(id_utilisateur);
 CREATE INDEX IF NOT EXISTS idx_factures_utilisateur ON factures(id_utilisateur);
