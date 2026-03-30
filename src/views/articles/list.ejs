@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="page-header">
+            <h1><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Articles</h1>
+            <a href="/articles/new" class="btn btn-primary">+ Nouvel article</a>
+        </div>
+
+        <% if (articles && articles.length > 0) { %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Prix (€)</th>
+                        <th>Stock</th>
+                        <th>Catégories</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% articles.forEach(article => { %>
+                        <tr>
+                            <td><%= article.nom_article %></td>
+                            <td><%= article.description || '-' %></td>
+                            <td><%= article.prix_unitaire.toFixed(2) %></td>
+                            <td><%= article.quantite_stock %></td>
+                            <td>
+                                <% if (article.categories && article.categories.length > 0) { %>
+                                    <% article.categories.forEach(cat => { %>
+                                        <span class="badge" style="display: inline-block; margin: 0 2px 2px 0;"><%= cat.nom_categorie %></span>
+                                    <% }); %>
+                                <% } else { %>
+                                    <span style="color: #999; font-size: 0.9rem;">-</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/articles/<%= article.id_article %>/edit" class="btn btn-sm btn-secondary">Modifier</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem(<%= article.id_article %>, '<%= article.nom_article %>', '/articles', '/articles')">Supprimer</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <div class="alert alert-info">
+                Aucun article pour le moment.
+            </div>
+        <% } %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+    <script src="/js/delete.js"></script>
+</body>
+</html>

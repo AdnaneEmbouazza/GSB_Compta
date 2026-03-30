@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <a href="/articles">Articles</a>
+                <a href="/contacts">Contacts</a>
+                <a href="/factures">Factures</a>
+                <a href="/devis">Devis</a>
+                <a href="/logout">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1><%= title %></h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <%= error %>
+            </div>
+        <% } %>
+
+        <form id="articleForm" class="form">
+            <div class="form-group">
+                <label for="nom_article">Nom de l'article *</label>
+                <input type="text" id="nom_article" name="nom_article" value="<%= article ? article.nom_article : '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description"><%= article ? (article.description || '') : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="prix_unitaire">Prix unitaire (€) *</label>
+                <input type="number" id="prix_unitaire" name="prix_unitaire" step="0.01" value="<%= article ? article.prix_unitaire : '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="quantite_stock">Quantité en stock</label>
+                <input type="number" id="quantite_stock" name="quantite_stock" value="<%= article ? article.quantite_stock : 0 %>">
+            </div>
+
+            <div class="form-group">
+                <label>Catégories</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 0.5rem;">
+                    <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+                        <% categories.forEach(categorie => { %>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input 
+                                    type="checkbox" 
+                                    id="cat_<%= categorie.id_categorie %>" 
+                                    name="categories" 
+                                    value="<%= categorie.id_categorie %>"
+                                    <% if (article && article.linkedCategories && article.linkedCategories.includes(categorie.id_categorie)) { %>checked<% } %>
+                                >
+                                <label for="cat_<%= categorie.id_categorie %>" style="margin: 0; cursor: pointer;">
+                                    <%= categorie.nom_categorie %>
+                                </label>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p style="color: #999; font-size: 0.9rem;">Aucune catégorie disponible</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="/articles" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+
+        <script>
+            const form = document.getElementById('articleForm');
+            const isEditing = '<%= article ? "yes" : "" %>';
+            const articleId = '<%= article ? article.id_article : "" %>';
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const data = {
+                    nom_article: formData.get('nom_article'),
+                    description: formData.get('description'),
+                    prix_unitaire: formData.get('prix_unitaire'),
+                    quantite_stock: formData.get('quantite_stock'),
+                    categories: formData.getAll('categories')
+                };
+
+                try {
+                    const method = isEditing ? 'PUT' : 'POST';
+                    const url = isEditing ? `/articles/${articleId}` : '/articles';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/articles';
+                    } else {
+                        const errorData = await response.json();
+                        alert('Erreur: ' + (errorData.error || 'Une erreur est survenue'));
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la requête:', error);
+                    alert('Erreur lors de l\'envoi du formulaire');
+                }
+            });
+        </script>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple</p>
+    </footer>
+</body>
+</html>

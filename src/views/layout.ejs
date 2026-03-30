@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'GSB COMPTA' %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><img src="/img/gsb-logo.webp" alt="Logo GSB" class="logo-nav"></a>
+            </div>
+            <div class="nav-links">
+                <% if (typeof locals.user !== 'undefined') { %>
+                    <a href="/articles">Articles</a>
+                    <a href="/contacts">Contacts</a>
+                    <a href="/factures">Factures</a>
+                    <a href="/devis">Devis</a>
+                    <a href="/logout">Déconnexion</a>
+                <% } else { %>
+                    <a href="/login">Connexion</a>
+                    <a href="/signup">Inscription</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                ⚠️ <%= error %>
+            </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                ✅ <%= success %>
+            </div>
+        <% } %>
+
+        <%- body %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 - Gestion Comptabilité Simple | Express.js + SQLite</p>
+    </footer>
+</body>
+</html>
