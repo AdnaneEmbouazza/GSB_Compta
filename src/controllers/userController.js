@@ -21,6 +21,7 @@
 
 const bcrypt = require('bcryptjs');
 const { get, run } = require('../config/database');
+const { validatePassword } = require('./authController');
 
 /**
  * Affiche le profil utilisateur de l'utilisateur connecté
@@ -238,11 +239,12 @@ const changePassword = async (req, res) => {
       });
     }
 
-    // Validation 3: minimum de sécurité (6 caractères)
-    if (newPassword.length < 6) {
+    // Validation 3: normes de sécurité (12 caractères min, 1 minuscule, 1 majuscule, 1 chiffre)
+    const passwordValidation = validatePassword(newPassword);
+    if (!passwordValidation.valid) {
       return res.status(400).render('user/changePassword', { 
         title: 'Changer le mot de passe',
-        error: 'Le mot de passe doit contenir au moins 6 caractères'
+        error: passwordValidation.message
       });
     }
 

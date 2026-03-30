@@ -11,6 +11,24 @@ const { get, run, all } = require('../config/database');
 require('dotenv').config();
 
 /**
+ * Validateur de mot de passe sécurisé
+ * Normes: minimum 12 caractères, 1 minuscule, 1 majuscule, 1 chiffre
+ * @param {string} password - Le mot de passe à valider
+ * @returns {object} - {valid: boolean, message?: string}
+ */
+const validatePassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{12,}$/;
+  
+  if (!passwordRegex.test(password)) {
+    return {
+      valid: false,
+      message: 'Le mot de passe doit contenir au minimum 12 caractères avec au moins une lettre minuscule, une lettre majuscule et un chiffre'
+    };
+  }
+  return { valid: true };
+};
+
+/**
  * POST /signup
  * Crée un nouvel utilisateur
  * 1. Valide les données
@@ -28,6 +46,14 @@ const signup = async (req, res) => {
     if (!email || !password || !nom) {
       return res.status(400).render('signup', { 
         error: 'Email, mot de passe et nom sont requis' 
+      });
+    }
+
+    // Validation du mot de passe selon les normes de sécurité
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+      return res.status(400).render('signup', { 
+        error: passwordValidation.message
       });
     }
 
@@ -152,5 +178,6 @@ module.exports = {
   login,
   logout,
   showSignup,
-  showLogin
+  showLogin,
+  validatePassword
 };
