@@ -111,7 +111,7 @@
                                 <td><%= ligne.prix_unitaire.toFixed(2) %></td>
                                 <td><%= ligne.montant.toFixed(2) %></td>
                                 <td>
-                                    <a href="/factures/<%= facture.id_facture %>/lignes/<%= ligne.id_ligne %>/delete" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr?')">Supprimer</a>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteLigneFacture(<%= facture.id_facture %>, <%= ligne.id_ligne %>)">Supprimer</button>
                                 </td>
                             </tr>
                         <% }); %>
@@ -281,6 +281,33 @@
                 alert('Erreur lors de la mise à jour du statut');
             }
         });
+
+        // Fonction pour supprimer une ligne avec fetch DELETE
+        async function deleteLigneFacture(factureId, idLigne) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette ligne?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/factures/${factureId}/lignes/${idLigne}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Recharge la page pour afficher les changements
+                    window.location.reload();
+                } else {
+                    const errorData = await response.json();
+                    alert('Erreur: ' + (errorData.error || 'Une erreur est survenue'));
+                }
+            } catch (error) {
+                console.error('Erreur lors de la suppression:', error);
+                alert('Erreur lors de la suppression de la ligne');
+            }
+        }
     </script>
 </body>
 </html>

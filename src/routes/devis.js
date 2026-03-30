@@ -16,6 +16,6 @@ router.put('/:id/status', devisController.updateDevisStatus);
 
 // Routes pour les lignes
 router.post('/:id/lignes', devisController.addLigneDevis);
-router.get('/:id/lignes/:idLigne/delete', devisController.deleteLigneDevis);
+router.delete('/:id/lignes/:idLigne', devisController.deleteLigneDevis);
 
 module.exports = router;

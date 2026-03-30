@@ -16,6 +16,6 @@ router.put('/:id/status', factureController.updateFactureStatus);
 
 // Routes pour les lignes
 router.post('/:id/lignes', factureController.addLigneFacture);
-router.get('/:id/lignes/:idLigne/delete', factureController.deleteLigneFacture);
+router.delete('/:id/lignes/:idLigne', factureController.deleteLigneFacture);
 
 module.exports = router;
