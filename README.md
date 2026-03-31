@@ -60,25 +60,23 @@ script.sql                 # Schéma base de données
 
 **Étapes**
 ```powershell
-# 1. Construire l'image
-docker-compose build
 
-# 2. Lancer l'app
-docker-compose up -d
+# 1. Lancer l'app (en arrière plan)
+docker-compose up -d --build (enlever le -d pour voir les logs en direct)
 
-# 3. Accéder à l'application
+# 2. Accéder à l'application
 # http://localhost:3000
 
-# 4. Vérifier le statut
+# 3. Vérifier le statut
 docker-compose ps
 
-# 5. Voir les logs
+# 4. Voir les logs
 docker-compose logs -f app
 
-# 6. Arrêter
-docker-compose down
+# 5. Arrêter
+docker-compose down (ajouter "-v" à la fin pour également supprimer les volumes )
 ```
-
+(si la syntaxe "docker-compose" pose problème essayer les memes commandes en retirant le tiret entre les 2 mot : "docker compose")
 ---
 
 ### Option 2: En local (développement)
