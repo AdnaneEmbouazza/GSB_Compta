@@ -1,0 +1,611 @@
+{
+  "utilisateurs": [
+    {
+      "id_utilisateur": 1,
+      "email": "admin@company.com",
+      "mot_de_passe": "TestPassword123456",
+      "nom": "Dupont",
+      "prenom": "Alice",
+      "date_inscription": "2025-01-15T10:30:00Z",
+      "notes": "Contrôleur auth exige : minimum 12 caractères + 1 minuscule + 1 majuscule + 1 chiffre"
+    },
+    {
+      "id_utilisateur": 2,
+      "email": "comptable@company.com",
+      "mot_de_passe": "ComptaPassword789",
+      "nom": "Martin",
+      "prenom": "Bob",
+      "date_inscription": "2025-02-01T14:20:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id_categorie": 1,
+      "nom_categorie": "Logiciel"
+    },
+    {
+      "id_categorie": 2,
+      "nom_categorie": "Consulting"
+    },
+    {
+      "id_categorie": 3,
+      "nom_categorie": "Maintenance"
+    },
+    {
+      "id_categorie": 4,
+      "nom_categorie": "Formation"
+    }
+  ],
+  "articles": [
+    {
+      "id_article": 1,
+      "id_utilisateur": 1,
+      "nom_article": "Licence Logiciel Premium",
+      "description": "Licence annuelle pour logiciel de comptabilité",
+      "prix_unitaire": 299.99,
+      "quantite_stock": 50,
+      "date_creation": "2025-01-20T09:00:00Z",
+      "categories": [1]
+    },
+    {
+      "id_article": 2,
+      "id_utilisateur": 1,
+      "nom_article": "Support Technique 24/7",
+      "description": "Support technique prioritaire pour un an",
+      "prix_unitaire": 999.99,
+      "quantite_stock": 30,
+      "date_creation": "2025-01-22T10:15:00Z",
+      "categories": [2, 3]
+    },
+    {
+      "id_article": 3,
+      "id_utilisateur": 1,
+      "nom_article": "Formation Utilisateur",
+      "description": "Formation complète pour 5 utilisateurs (2 jours)",
+      "prix_unitaire": 1500.00,
+      "quantite_stock": 15,
+      "date_creation": "2025-02-01T11:30:00Z",
+      "categories": [4]
+    },
+    {
+      "id_article": 4,
+      "id_utilisateur": 1,
+      "nom_article": "Module Intégration API",
+      "description": "Développement d'une intégration API personnalisée",
+      "prix_unitaire": 2500.00,
+      "quantite_stock": 10,
+      "date_creation": "2025-02-05T14:45:00Z",
+      "categories": [1, 2]
+    },
+    {
+      "id_article": 5,
+      "id_utilisateur": 1,
+      "nom_article": "Maintenance Mensuelle",
+      "description": "Service de maintenance et monitoring mensuel",
+      "prix_unitaire": 450.00,
+      "quantite_stock": 100,
+      "date_creation": "2025-02-10T08:20:00Z",
+      "categories": [3]
+    }
+  ],
+  "contacts": [
+    {
+      "id_contact": 1,
+      "id_utilisateur": 1,
+      "nom_contact": "Entreprise TechSoft SARL",
+      "type_contact": "client",
+      "email_contact": "facturation@techsoft.fr",
+      "telephone": "01 23 45 67 89",
+      "adresse": "123 Avenue des Champs-Élysées",
+      "code_postal": "75008",
+      "ville": "Paris",
+      "date_creation": "2025-01-25T09:30:00Z"
+    },
+    {
+      "id_contact": 2,
+      "id_utilisateur": 1,
+      "nom_contact": "Solutions Digitales Inc",
+      "type_contact": "client",
+      "email_contact": "contact@solutions-dig.com",
+      "telephone": "02 99 12 34 56",
+      "adresse": "456 Route de Lorient",
+      "code_postal": "35700",
+      "ville": "Rennes",
+      "date_creation": "2025-02-03T14:15:00Z"
+    },
+    {
+      "id_contact": 3,
+      "id_utilisateur": 1,
+      "nom_contact": "WebAgency Pro",
+      "type_contact": "client",
+      "email_contact": "devis@webagency.fr",
+      "telephone": "03 45 67 89 01",
+      "adresse": "789 Boulevard Saint-Germain",
+      "code_postal": "75006",
+      "ville": "Paris",
+      "date_creation": "2025-02-08T10:45:00Z"
+    },
+    {
+      "id_contact": 4,
+      "id_utilisateur": 1,
+      "nom_contact": "Cloud Services Ltd",
+      "type_contact": "fournisseur",
+      "email_contact": "support@cloudservices.uk",
+      "telephone": "+44 20 7946 0958",
+      "adresse": "100 Clerkenwell Road",
+      "code_postal": "EC1R 5DB",
+      "ville": "Londres",
+      "date_creation": "2025-01-30T11:20:00Z"
+    },
+    {
+      "id_contact": 5,
+      "id_utilisateur": 1,
+      "nom_contact": "Logiciels Europe GmbH",
+      "type_contact": "fournisseur",
+      "email_contact": "sales@logiciels-eu.de",
+      "telephone": "+49 30 123456",
+      "adresse": "Unter den Linden 42",
+      "code_postal": "10117",
+      "ville": "Berlin",
+      "date_creation": "2025-02-12T09:00:00Z"
+    }
+  ],
+  "factures": [
+    {
+      "id_facture": 1,
+      "id_utilisateur": 1,
+      "numero_facture": "FAC-2026-0001",
+      "id_contact": 1,
+      "date_facture": "2026-03-01",
+      "date_echeance": "2026-04-01",
+      "montant_ht": 1499.95,
+      "montant_tva": 299.99,
+      "montant_ttc": 1799.94,
+      "etat_facture": "envoyee",
+      "est_payee": false,
+      "date_paiement": null,
+      "notes": "Facture pour licence logiciel",
+      "date_creation": "2026-03-01T08:30:00Z",
+      "date_modification": "2026-03-01T08:30:00Z",
+      "lignes": [
+        {
+          "id_article": 1,
+          "description": "Licence Logiciel Premium x 5",
+          "quantite": 5,
+          "prix_unitaire": 299.99,
+          "montant": 1499.95
+        }
+      ]
+    },
+    {
+      "id_facture": 2,
+      "id_utilisateur": 1,
+      "numero_facture": "FAC-2026-0002",
+      "id_contact": 2,
+      "date_facture": "2026-03-05",
+      "date_echeance": "2026-04-05",
+      "montant_ht": 3500.00,
+      "montant_tva": 700.00,
+      "montant_ttc": 4200.00,
+      "etat_facture": "envoyee",
+      "est_payee": true,
+      "date_paiement": "2026-03-20",
+      "notes": "Service de maintenance et support technique",
+      "date_creation": "2026-03-05T10:15:00Z",
+      "date_modification": "2026-03-20T14:30:00Z",
+      "lignes": [
+        {
+          "id_article": 2,
+          "description": "Support Technique 24/7 x 3",
+          "quantite": 3,
+          "prix_unitaire": 999.99,
+          "montant": 2999.97
+        },
+        {
+          "id_article": 5,
+          "description": "Maintenance Mensuelle x 1",
+          "quantite": 1,
+          "prix_unitaire": 450.00,
+          "montant": 450.00
+        }
+      ]
+    },
+    {
+      "id_facture": 3,
+      "id_utilisateur": 1,
+      "numero_facture": "FAC-2026-0003",
+      "id_contact": 3,
+      "date_facture": "2026-03-10",
+      "date_echeance": "2026-04-10",
+      "montant_ht": 1500.00,
+      "montant_tva": 300.00,
+      "montant_ttc": 1800.00,
+      "etat_facture": "brouillon",
+      "est_payee": false,
+      "date_paiement": null,
+      "notes": "Service de formation pour équipe",
+      "date_creation": "2026-03-10T13:45:00Z",
+      "date_modification": "2026-03-10T13:45:00Z",
+      "lignes": [
+        {
+          "id_article": 3,
+          "description": "Formation Utilisateur",
+          "quantite": 1,
+          "prix_unitaire": 1500.00,
+          "montant": 1500.00
+        }
+      ]
+    }
+  ],
+  "devis": [
+    {
+      "id_devis": 1,
+      "id_utilisateur": 1,
+      "numero_devis": "DEV-2026-0001",
+      "id_contact": 1,
+      "date_devis": "2026-02-28",
+      "date_validite": "2026-04-28",
+      "montant_ht": 2500.00,
+      "montant_tva": 500.00,
+      "montant_ttc": 3000.00,
+      "etat_devis": "accepte",
+      "notes": "Intégration API personnalisée conforme aux spécifications",
+      "date_creation": "2026-02-28T09:00:00Z",
+      "date_modification": "2026-03-15T11:30:00Z",
+      "lignes": [
+        {
+          "id_article": 4,
+          "description": "Module Intégration API",
+          "quantite": 1,
+          "prix_unitaire": 2500.00,
+          "montant": 2500.00
+        }
+      ]
+    },
+    {
+      "id_devis": 2,
+      "id_utilisateur": 1,
+      "numero_devis": "DEV-2026-0002",
+      "id_contact": 2,
+      "date_devis": "2026-03-01",
+      "date_validite": "2026-05-01",
+      "montant_ht": 2498.00,
+      "montant_tva": 499.60,
+      "montant_ttc": 2997.60,
+      "etat_devis": "en_attente",
+      "notes": "Bundle services : Licence + Support + Maintenance",
+      "date_creation": "2026-03-01T10:20:00Z",
+      "date_modification": "2026-03-01T10:20:00Z",
+      "lignes": [
+        {
+          "id_article": 1,
+          "description": "Licence Logiciel Premium x 2",
+          "quantite": 2,
+          "prix_unitaire": 299.99,
+          "montant": 599.98
+        },
+        {
+          "id_article": 2,
+          "description": "Support Technique 24/7 x 1",
+          "quantite": 1,
+          "prix_unitaire": 999.99,
+          "montant": 999.99
+        },
+        {
+          "id_article": 5,
+          "description": "Maintenance Mensuelle x 1",
+          "quantite": 1,
+          "prix_unitaire": 450.00,
+          "montant": 450.00
+        }
+      ]
+    },
+    {
+      "id_devis": 3,
+      "id_utilisateur": 1,
+      "numero_devis": "DEV-2026-0003",
+      "id_contact": 3,
+      "date_devis": "2026-03-08",
+      "date_validite": "2026-05-08",
+      "montant_ht": 4500.00,
+      "montant_tva": 900.00,
+      "montant_ttc": 5400.00,
+      "etat_devis": "refusee",
+      "notes": "Package premium : formation + consulting + support",
+      "date_creation": "2026-03-08T14:30:00Z",
+      "date_modification": "2026-03-22T09:15:00Z",
+      "lignes": [
+        {
+          "id_article": 3,
+          "description": "Formation Utilisateur",
+          "quantite": 2,
+          "prix_unitaire": 1500.00,
+          "montant": 3000.00
+        },
+        {
+          "id_article": 2,
+          "description": "Support Technique 24/7",
+          "quantite": 1,
+          "prix_unitaire": 999.99,
+          "montant": 999.99
+        },
+        {
+          "id_article": 5,
+          "description": "Maintenance Mensuelle",
+          "quantite": 1,
+          "prix_unitaire": 450.00,
+          "montant": 450.00
+        }
+      ]
+    }
+  ],
+  "scenarios_test": {
+    "authentification": [
+      {
+        "nom": "Inscription utilisateur",
+        "description": "POST /signup - Créer un account avec email et mot de passe conforme",
+        "endpoint": "POST /signup",
+        "donnees": {
+          "email": "newuser@test.com",
+          "password": "NewUserPassword123",
+          "nom": "Bertrand",
+          "prenom": "Martin"
+        },
+        "validation": {
+          "mot_de_passe_min_12_chars": true,
+          "contient_minuscule": true,
+          "contient_majuscule": true,
+          "contient_chiffre": true
+        }
+      },
+      {
+        "nom": "Connexion utilisateur",
+        "description": "POST /login - Authentifier avec email/password",
+        "endpoint": "POST /login",
+        "donnees": {
+          "email": "admin@company.com",
+          "password": "TestPassword123456"
+        }
+      },
+      {
+        "nom": "Tentative mdp faible",
+        "description": "POST /signup - Rejeter un mot de passe < 12 caractères",
+        "endpoint": "POST /signup",
+        "donnees": {
+          "email": "weak@test.com",
+          "password": "Weak123",
+          "nom": "Test",
+          "prenom": "Fail"
+        },
+        "expected_error": "Le mot de passe doit contenir au minimum 12 caractères"
+      }
+    ],
+    "articles": [
+      {
+        "nom": "Ajouter article simple",
+        "description": "POST /articles - Créer un article sans catégories",
+        "endpoint": "POST /articles",
+        "donnees": {
+          "nom_article": "Support Premium 1 an",
+          "description": "Support technique premium avec SLA 4h",
+          "prix_unitaire": "1299.99",
+          "quantite_stock": "20"
+        },
+        "note": "categories est optionnel"
+      },
+      {
+        "nom": "Ajouter article avec catégories",
+        "description": "POST /articles - Créer un article et l'associer à plusieurs catégories",
+        "endpoint": "POST /articles",
+        "donnees": {
+          "nom_article": "Module Intégration API Custom",
+          "description": "Développement d'une intégration API personnalisée",
+          "prix_unitaire": "2500.00",
+          "quantite_stock": "10",
+          "categories": ["1", "2"]
+        },
+        "note": "categories = array d'IDs de catégories de la table categories"
+      },
+      {
+        "nom": "Modifier article",
+        "description": "POST /articles/:id - Mettre à jour un article",
+        "endpoint": "POST /articles/1",
+        "donnees": {
+          "nom_article": "Licence Logiciel Premium v2.0",
+          "description": "Licence annuelle mise à jour",
+          "prix_unitaire": "349.99",
+          "quantite_stock": "45",
+          "categories": ["1"]
+        }
+      },
+      {
+        "nom": "Valider article manquant",
+        "description": "POST /articles - Rejet si nom ou prix manquant",
+        "endpoint": "POST /articles",
+        "donnees": {
+          "description": "Article sans nom",
+          "quantite_stock": "10"
+        },
+        "expected_error": "Nom et prix sont requis"
+      }
+    ],
+    "contacts": [
+      {
+        "nom": "Ajouter client",
+        "description": "POST /contacts - Créer une fiche client",
+        "endpoint": "POST /contacts",
+        "donnees": {
+          "nom_contact": "Startup Innovation SARL",
+          "type_contact": "client",
+          "email_contact": "contact@startup-innov.fr",
+          "telephone": "04 56 78 90 12",
+          "adresse": "321 Rue de la Paix",
+          "code_postal": "13000",
+          "ville": "Marseille"
+        }
+      },
+      {
+        "nom": "Ajouter fournisseur",
+        "description": "POST /contacts - Créer une fiche fournisseur",
+        "endpoint": "POST /contacts",
+        "donnees": {
+          "nom_contact": "Distributeur Tech Global",
+          "type_contact": "fournisseur",
+          "email_contact": "orders@tech-global.com",
+          "telephone": "+1 415 555 0123",
+          "adresse": "200 Market Street",
+          "code_postal": "94105",
+          "ville": "San Francisco"
+        },
+        "note": "type_contact = 'client' ou 'fournisseur'"
+      },
+      {
+        "nom": "Valider contact obligatoire",
+        "description": "POST /contacts - Rejet si nom ou type manquant",
+        "endpoint": "POST /contacts",
+        "donnees": {
+          "email_contact": "notype@test.com",
+          "telephone": "01 23 45 67 89"
+        },
+        "expected_error": "Nom et type sont requis"
+      }
+    ],
+    "factures": [
+      {
+        "nom": "Créer facture brouillon",
+        "description": "POST /factures - Créer une facture vide (sans articles)",
+        "endpoint": "POST /factures",
+        "step": 1,
+        "donnees": {
+          "numero_facture": "FAC-2026-0010",
+          "id_contact": 1,
+          "date_facture": "2026-03-25",
+          "date_echeance": "2026-04-25",
+          "etat_facture": "brouillon",
+          "notes": "Facture initiale"
+        },
+        "note": "Crée facture avec montants_ht/tva/ttc = 0"
+      },
+      {
+        "nom": "Ajouter ligne à facture",
+        "description": "POST /factures/:id/lignes - Ajouter un article à la facture (ÉTAPE 2)",
+        "endpoint": "POST /factures/1/lignes",
+        "step": 2,
+        "donnees": {
+          "id_article": 1,
+          "description": "Article spécifique du devis",
+          "quantite": "2"
+        },
+        "note": "Validate STOCK : quantite ne peut pas dépasser quantite_stock de l'article",
+        "validation": {
+          "stock_control": "OBLIGATOIRE",
+          "calcul_montant": "quantite * prix_unitaire"
+        }
+      },
+      {
+        "nom": "Valider stock insuffisant",
+        "description": "POST /factures/:id/lignes - Rejet si quantité > stock",
+        "endpoint": "POST /factures/1/lignes",
+        "donnees": {
+          "id_article": 1,
+          "quantite": "999"
+        },
+        "expected_error": "Quantité insuffisante en stock"
+      },
+      {
+        "nom": "Valider montants facture",
+        "description": "Après ajout de lignes, montants calculés automatiquement",
+        "endpoint": "GET /factures/1",
+        "note": "montant_ht = sum de toutes les lignes, montant_tva = montant_ht * 0.20, montant_ttc = montant_ht + tva"
+      },
+      {
+        "nom": "Marquer facture payée",
+        "description": "POST /factures/:id/payer - Enregistrer le paiement",
+        "endpoint": "POST /factures/1/payer",
+        "donnees": {
+          "date_paiement": "2026-03-30"
+        },
+        "note": "Passe etat_facture à 'payee' et enregistre la date_paiement"
+      },
+      {
+        "nom": "Envoyer facture",
+        "description": "POST /factures/:id/envoyer - Changer état à 'envoyee'",
+        "endpoint": "POST /factures/1/envoyer",
+        "donnees": {}
+      }
+    ],
+    "devis": [
+      {
+        "nom": "Créer devis brouillon",
+        "description": "POST /devis - Créer un devis vide",
+        "endpoint": "POST /devis",
+        "step": 1,
+        "donnees": {
+          "numero_devis": "DEV-2026-0005",
+          "id_contact": 2,
+          "date_devis": "2026-03-20",
+          "date_validite": "2026-05-20",
+          "etat_devis": "brouillon",
+          "notes": "Devis initial pour discussion"
+        }
+      },
+      {
+        "nom": "Ajouter article au devis",
+        "description": "POST /devis/:id/lignes - Ajouter une ligne d'article",
+        "endpoint": "POST /devis/1/lignes",
+        "step": 2,
+        "donnees": {
+          "id_article": 2,
+          "description": "Service de consulting",
+          "quantite": "1"
+        },
+        "note": "Même validation stock que factures"
+      },
+      {
+        "nom": "Accepter devis",
+        "description": "POST /devis/:id/accepter - Changer état à 'accepte'",
+        "endpoint": "POST /devis/1/accepter",
+        "donnees": {}
+      },
+      {
+        "nom": "Refuser devis",
+        "description": "POST /devis/:id/refuser - Changer état à 'refusee'",
+        "endpoint": "POST /devis/1/refuser",
+        "donnees": {},
+        "note": "Client refuse le devis"
+      },
+      {
+        "nom": "Convertir devis en facture",
+        "description": "POST /devis/:id/convertir - Crée une facture à partir du devis",
+        "endpoint": "POST /devis/1/convertir",
+        "donnees": {
+          "numero_facture": "FAC-2026-0020"
+        },
+        "note": "Crée une facture avec les mêmes lignes"
+      }
+    ],
+    "gestion_stock": [
+      {
+        "nom": "Stock diminue à la création facture",
+        "description": "Ajouter ligne facture → quantite_stock de l'article diminue",
+        "endpoint": "POST /factures/:id/lignes",
+        "exemple": {
+          "avant": "Stock article 1 = 50",
+          "action": "Ajouter 5x article 1 à facture",
+          "apres": "Stock article 1 = 45"
+        }
+      },
+      {
+        "nom": "Stock restauré à la suppression facture",
+        "description": "Supprimer une facture → stock des articles augmente",
+        "endpoint": "DELETE /factures/:id",
+        "exemple": {
+          "avant": "Stock article 1 = 45",
+          "action": "Supprimer la facture",
+          "apres": "Stock article 1 = 50"
+        },
+        "note": "Gestion automatique par triggers/cascade SQL"
+      }
+    ]
+  }
+}
